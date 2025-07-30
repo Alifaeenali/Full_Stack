@@ -9,131 +9,47 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from apscheduler.schedulers.background import BackgroundScheduler
 import time
+from app_utils import get_db_connection, login_required, return_content, send_email
+
+from dotenv import load_dotenv  
+
+# Load environment variables from .env file
+load_dotenv()
 
 app = Flask(__name__)
-# IMPORTANT: Replace with a strong, unique secret key for security.
-# This is crucial for session security!
-app.secret_key = 'your_strong_unique_secret_key_here_a_very_long_random_string'
 
-# --- Admin Credentials (FOR DEMONSTRATION ONLY - DO NOT USE IN PRODUCTION) ---
-ADMIN_USERNAME = 'admin'
-ADMIN_PASSWORD = 'password123' # In production, use hashed passwords from a database!
-# -----------------------------------------------------------------------------
+# Use environment variables for sensitive config
+app.secret_key = os.getenv('FLASK_SECRET_KEY')
 
-# Database connection function
-def get_db_connection():
-    conn = mysql.connector.connect(
-        host='localhost',
-        user='root',          # Replace with your MySQL username
-        password='10,Aug_2023', # Replace with your MySQL password
-        database='dbfortifund' # Updated to your new database name
-    )
-    return conn
-
+# --- Admin Credentials ---
+ADMIN_USERNAME = os.getenv('ADMIN_USERNAME')
+ADMIN_PASSWORD = os.getenv('ADMIN_PASSWORD')
 
 # inside 'static/assets/uploads'.
 UPLOAD_FOLDER = os.path.join(app.root_path, 'static', 'assets', 'uploads')
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-# --- Authentication Decorator ---
-def login_required(f):
-    @wraps(f)
-    def decorated_function(*args, **kwargs):
-        if 'logged_in' not in session or not session['logged_in']:
-            flash('Please log in to access this page.', 'error')
-            return redirect(url_for('login'))
-        return f(*args, **kwargs)
-    return decorated_function
+# --- Email Utility ---
+ADMIN_EMAIL = os.getenv('ADMIN_EMAIL')
+SMTP_SERVER = os.getenv('SMTP_SERVER')
+SMTP_PORT = int(os.getenv('SMTP_PORT', 587))
+SMTP_USERNAME = os.getenv('SMTP_USERNAME')
+SMTP_PASSWORD = os.getenv('SMTP_PASSWORD')
 
-def return_content():
-    conn = get_db_connection()
-    cursor = conn.cursor(dictionary=True)
+def handle_upload(file, field_name):
+    """
+    Handles file uploads, saves them, and returns the static path.
+    field_name can be used to create subdirectories if needed, or just for logging.
+    """
+    if file and file.filename:
+        filename = secure_filename(file.filename)
+        # Use app.config['UPLOAD_FOLDER'] which is already an absolute path
+        filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+        file.save(filepath)
+        # Return path relative to static for URL usage
+        return f"static/assets/uploads/{filename}"
+    return None
 
-    # Fetch all content from all tables according to new schema
-    cursor.execute("SELECT * FROM navtable WHERE nav_id = 1")
-    nav_content = cursor.fetchone()
-
-    cursor.execute("SELECT * FROM herotable WHERE hero_id = 1")
-    hero_content = cursor.fetchone()
-
-    cursor.execute("SELECT * FROM clientTrust WHERE clientTrust_id = 1")
-    client_trust_content = cursor.fetchone()
-
-    cursor.execute("SELECT * FROM innovationTable WHERE innovation_id = 1")
-    innovation_content = cursor.fetchone()
-
-    cursor.execute("SELECT * FROM clientExperience WHERE clientExp_id = 1")
-    experience_content = cursor.fetchone()
-
-    cursor.execute("SELECT * FROM statistics WHERE statistics_id = 1")
-    stats_content = cursor.fetchone()
-
-    cursor.execute("SELECT * FROM stat_card WHERE statCard_id = 1")
-    stat_card_content = cursor.fetchone()
-
-    cursor.execute("SELECT * FROM getToKnow WHERE knowId = 1")
-    know_content = cursor.fetchone()
-
-    cursor.execute("SELECT * FROM exploreTable WHERE explore_id = 1")
-    explore_content = cursor.fetchone()
-
-    cursor.execute("SELECT * FROM footer WHERE footer_id = 1")
-    footer = cursor.fetchone()
-
-    # Fetch latest blogs for the 'Explore' section (e.g., for index page)
-    # Join with Images table to get thumbnail details
-    cursor.execute("""
-        SELECT
-            b.blog_id,
-            b.heading,
-            b.subheading,
-            b.author,
-            b.publish_date,
-            b.content,
-            i.image_filename AS thumbnail_image_filename,
-            i.alt_text AS thumbnail_image_alt_text
-        FROM Blogs b
-        LEFT JOIN Images i ON b.thumbnail_image_id = i.image_id
-        ORDER BY b.publish_date DESC
-        LIMIT 9 # Fetch a reasonable number of latest blogs
-    """)
-    latest_blogs = cursor.fetchall()
-
-    # Fetch all FAQs and group by category
-    cursor.execute("SELECT * FROM faqs ORDER BY category, faq_id")
-    all_faqs = cursor.fetchall()
-    faqs_by_category = {}
-    for faq in all_faqs:
-        category = faq['category']
-        if category not in faqs_by_category:
-            faqs_by_category[category] = []
-        faqs_by_category[category].append(faq)
-
-    # Fetch contact submissions
-    cursor.execute("SELECT * FROM contact_submissions ORDER BY submission_date DESC")
-    contact_submissions = cursor.fetchall()
-
-
-    conn.close()
-
-    # Combine all content into a single dictionary for easier access in Jinja
-    content = {
-        **(nav_content or {}),
-        **(hero_content or {}),
-        **(client_trust_content or {}),
-        **(innovation_content or {}),
-        **(experience_content or {}),
-        **(stats_content or {}),
-        **(stat_card_content or {}),
-        **(know_content or {}),
-        **(explore_content or {}),
-        **(footer or {} ),
-        'latest_blogs': latest_blogs, # Add latest blogs to the content
-        'faqs_by_category': faqs_by_category, # Add grouped FAQs
-        'contact_submissions': contact_submissions # Add contact submissions
-    }
-
-    return content
 
 @app.route('/')
 def index():
@@ -143,7 +59,7 @@ def index():
 @app.route('/blog/<int:blog_id>')
 def blog(blog_id):
     """
-    Route to display a single blog post.
+    Route to display a sing-le blog post.
     Fetches blog details and its thumbnail image from the database.
     """
     conn = get_db_connection()
@@ -169,7 +85,7 @@ def blog(blog_id):
     content = return_content()
 
     if blog_post:
-        return render_template('blog.html', **blog_post,**content )
+        return render_template('blog.html',**content, **blog_post)
     else:
         flash('Blog post not found!', 'error')
         return redirect(url_for('index'))
@@ -664,44 +580,7 @@ def delete_faq(faq_id):
     return redirect(url_for('admin'))
 
 
-# --- File Upload Utility (existing) ---
 
-def handle_upload(file, field_name):
-    """
-    Handles file uploads, saves them, and returns the static path.
-    field_name can be used to create subdirectories if needed, or just for logging.
-    """
-    if file and file.filename:
-        filename = secure_filename(file.filename)
-        # Use app.config['UPLOAD_FOLDER'] which is already an absolute path
-        filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-        file.save(filepath)
-        # Return path relative to static for URL usage
-        return f"static/assets/uploads/{filename}"
-    return None
-
-# --- Email Utility ---
-ADMIN_EMAIL = 'ah5288317@gmail.com'  # Change to your admin email
-SMTP_SERVER = 'smtp.gmail.com'     # Change as needed
-SMTP_PORT = 587
-SMTP_USERNAME = 'alifaeenali@gmail.com'  # Change to your email
-SMTP_PASSWORD = 'trqq jilr atxy thxr'   # Change to your email password or app password
-
-
-def send_email(to_email, subject, body):
-    msg = MIMEMultipart()
-    msg['From'] = SMTP_USERNAME
-    msg['To'] = to_email
-    msg['Subject'] = subject
-    msg.attach(MIMEText(body, 'plain'))
-    try:
-        server = smtplib.SMTP(SMTP_SERVER, SMTP_PORT)
-        server.starttls()
-        server.login(SMTP_USERNAME, SMTP_PASSWORD)
-        server.sendmail(SMTP_USERNAME, to_email, msg.as_string())
-        server.quit()
-    except Exception as e:
-        print(f"Error sending email: {e}")
 
 # --- Contact Form Submission Route ---
 @app.route('/submit_contact', methods=['POST'])
@@ -793,20 +672,6 @@ def upcommingSolutions():
     content = return_content()
     return render_template('upcomming.html', **content)
 
-# --- DEMO BOOKINGS TABLE SCHEMA (for reference) ---
-# CREATE TABLE demo_bookings (
-#     id INT AUTO_INCREMENT PRIMARY KEY,
-#     firm_name VARCHAR(255),
-#     company_type VARCHAR(100),
-#     person_name VARCHAR(255),
-#     title VARCHAR(100),
-#     email VARCHAR(255),
-#     team_size VARCHAR(50),
-#     meeting_date DATE,
-#     meeting_time VARCHAR(20),
-#     meeting_link VARCHAR(500),
-#     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-# );
 
 @app.route('/api/booked_dates', methods=['GET'])
 def api_booked_dates():
@@ -903,4 +768,3 @@ if __name__ == '__main__':
         os.makedirs(UPLOAD_FOLDER)
 
     app.run(debug=True)
-
