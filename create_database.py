@@ -9,80 +9,79 @@ load_dotenv()
 DB_HOST = os.getenv("DB_HOST")
 DB_USER = os.getenv("DB_USER")
 DB_PASSWORD = os.getenv("DB_PASSWORD")
-DB_NAME = os.getenv("DB_NAME") 
+DB_NAME = os.getenv("DB_NAME")
 
 def run_sql_script(sql_script_content):
     """
     Connects to MySQL and executes the provided SQL script.
-    It first connects without a specific database to create it,
-    then connects to the newly created database to execute further statements.
+    It first ensures the database specified in DB_NAME exists,
+    then connects to that database to execute further statements.
     """
     conn = None
     cursor = None
     try:
+        # --- Step 1: Connect to MySQL server (without specifying a database) ---
+        # This connection is used to create the database if it doesn't exist.
         conn = mysql.connector.connect(
             host=DB_HOST,
             user=DB_USER,
             password=DB_PASSWORD
         )
-
         cursor = conn.cursor()
 
+        # --- Step 2: Create the database if it does not exist ---
+        create_db_query = f"CREATE DATABASE IF NOT EXISTS {DB_NAME}"
+        try:
+            cursor.execute(create_db_query)
+            print(f"Database '{DB_NAME}' created successfully or already exists.")
+            conn.commit() # Commit the database creation
+        except mysql.connector.Error as err:
+            print(f"Error creating database '{DB_NAME}': {err}")
+            raise # Re-raise the error if database creation fails
+
+        # --- Step 3: Close the initial connection and reconnect to the specific database ---
+        cursor.close()
+        conn.close()
+
+        conn = mysql.connector.connect(
+            host=DB_HOST,
+            user=DB_USER,
+            password=DB_PASSWORD,
+            database=DB_NAME # Now connect to the specific database
+        )
+        cursor = conn.cursor()
+        print(f"Successfully connected to database '{DB_NAME}'.")
+
+        # --- Step 4: Execute the rest of the SQL script content ---
         # Split the script into individual statements
         # This simple split works for most cases, but be careful with
         # complex statements containing semicolons within strings or comments.
         statements = [s.strip() for s in sql_script_content.split(';') if s.strip()]
 
-        # Execute statements
         for statement in statements:
+            # Skip any CREATE DATABASE statements in the main script if they exist,
+            # as we've already handled the primary database creation.
             if statement.lower().startswith("create database"):
-                try:
-                    cursor.execute(statement)
-                    print(f"Executed: {statement[:50]}...")
-                    # Once the database is created, close the current connection
-                    # and reconnect to the new database
-                    cursor.close()
-                    conn.close()
-                    
-                    # Reconnect to the newly created database
-                    conn = mysql.connector.connect(
-                        host=DB_HOST,
-                        user=DB_USER,
-                        password=DB_PASSWORD,
-                        database=DB_NAME # Connect to the specific database
-                    )
-                    cursor = conn.cursor()
-                    print(f"Successfully connected to database '{DB_NAME}'.")
-                except mysql.connector.Error as err:
-                    if err.errno == 1007: # Error code for "Can't create database; database exists"
-                        print(f"Database '{DB_NAME}' already exists. Connecting to it.")
-                        # If database exists, just connect to it and continue
-                        cursor.close()
-                        conn.close()
-                        conn = mysql.connector.connect(
-                            host=DB_HOST,
-                            user=DB_USER,
-                            password=DB_PASSWORD,
-                            database=DB_NAME
-                        )
-                        cursor = conn.cursor()
-                    else:
-                        print(f"Error creating database: {err}")
-                        raise # Re-raise other errors
-            else:
-                try:
-                    cursor.execute(statement)
-                    # print(f"Executed: {statement[:50]}...") # Uncomment for more verbose output
-                except mysql.connector.Error as err:
-                    print(f"Error executing statement: {statement[:100]}...")
-                    print(f"Error: {err}")
-                    # You might want to break or raise here depending on your error handling needs
-        
-        conn.commit() # Commit all changes
+                print(f"Skipping 'CREATE DATABASE' statement in script: {statement[:50]}...")
+                continue
+            try:
+                cursor.execute(statement)
+                # print(f"Executed: {statement[:50]}...") # Uncomment for more verbose output
+            except mysql.connector.Error as err:
+                print(f"Error executing statement: {statement[:100]}...")
+                print(f"Error: {err}")
+                # You might want to break or raise here depending on your error handling needs
+
+        conn.commit() # Commit all changes from the SQL script
         print("\nSQL script executed successfully.")
 
     except mysql.connector.Error as err:
-        print(f"Error connecting to database or executing query: {err}")
+        if err.errno == mysql.connector.errorcode.ER_ACCESS_DENIED_ERROR:
+            print("Something is wrong with your user name or password. Please check DB_USER and DB_PASSWORD in your .env file.")
+        else:
+            print(f"An unexpected MySQL error occurred: {err}")
+    except Exception as e:
+        print(f"An unexpected error occurred: {e}")
     finally:
         if cursor:
             cursor.close()
@@ -90,6 +89,7 @@ def run_sql_script(sql_script_content):
             conn.close()
 
 if __name__ == "__main__":
+    # Your SQL script content
     sql_script = """
     create table if not exists navtable(
     nav_id int auto_increment primary key,
@@ -285,7 +285,7 @@ if __name__ == "__main__":
         meeting_time VARCHAR(20),
         meeting_link VARCHAR(500),
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-     );
+       );
 
     -- Insert General Questions
     INSERT INTO faqs (category, question, answer) VALUES
@@ -317,6 +317,10 @@ if __name__ == "__main__":
     ('Support & Customization', 'Can I get help tailoring FortiFund to my workflow?', 'Yes! Our team will work with you to configure your dashboard, deal settings, and lender preferences to fit your business goals.'),
     ('Support & Customization', 'What if I need help with a hard-to-place deal?', 'We’re here to help. Our team and tools are designed to find the right match — even for deals that don’t fit the standard mold.');
     """
-    
+
 if __name__ == "__main__":
-    run_sql_script(sql_script)
+    # Ensure DB_NAME is set in .env before running
+    if not DB_NAME:
+        print("Error: DB_NAME is not set in your .env file. Please set it before running this script.")
+    else:
+        run_sql_script(sql_script)
