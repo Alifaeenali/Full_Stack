@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{# Place page-specific CSS within the head_extra block defined in base.html #}
+{% block head_extra %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/blog.css') }}">
+{% endblock %}
+
+{# Updated title to be dynamic from blog content #}
+{% block title %}{{ heading }} - FortiFund{% endblock %}
+
+{% block content %}
+
+    <div class="blogSection">
+        <div class="blog-written">
+            <div class="blogHead">
+                <div class="blog-heading">
+                    <h1><b>{{ heading }}</b></h1> {# From Blogs.heading #}
+                </div>
+                <div class="blog-description">
+                    {{ subheading }} {# From Blogs.subheading #}
+                </div>
+                <div class="auth-date">
+                    <div class="author">
+                        <i>{{ author }}</i> {# From Blogs.author #}
+                    </div>
+                    <div class="date">
+                        <i>{{ publish_date }}</i> {# From Blogs.publish_date #}
+                    </div>
+                </div>
+            </div>
+            <div class="blog-para">
+                {{ content | safe }} {# From Blogs.content. Use 'safe' if content is HTML and you trust it #}
+            </div>
+        </div>
+
+        <div class="blog-image">
+            {# The image is linked via thumbnail_image_id in Blogs table.
+               You'll need to fetch the image_filename from the Images table in your Flask route. #}
+            {% if thumbnail_image_filename %}
+                <img src="{{ url_for('static', filename='assets/uploads/' + thumbnail_image_filename) }}" alt="{{ thumbnail_image_alt_text }}">
+            {% else %}
+                {# Fallback if no image is available #}
+                <img src="{{ url_for('static', filename='assets/images/default_blog_image.jpg') }}" alt="Default Blog Image">
+            {% endif %}
+        </div>
+    </div>
+{%endblock%}
