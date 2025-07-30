@@ -1,271 +1,843 @@
-/* Blog Section Styles */
-.blogSection {
-
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 60px 20px;
-    display: grid;
-    grid-template-columns: 1fr 400px;
-    gap: 60px;
-    align-items: start;
-    min-height: 100vh;
-    margin-top: 10%;
+*{
+    font-family: "Lato", sans-serif;
 }
 
-/* Left side - Written content */
-.blog-written {
-    background: #ffffff;
-    border-radius: 16px;
-    padding: 40px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(10px);
+button, a{
+    cursor: pointer;
+}
+p{
+    cursor: auto;
+}
+/* navbar */
+.navbar{
+    /* border: solid; */
+    width: 97%;
+    /* height: 10vh; */
+    background: rgb(33, 51, 55);
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    border-radius: 15px;
+    height: 12vh;
+    position: fixed;     /* Stay at top */
+    top: 20px;           /* Distance from top */
+    left: 20px;          /* Distance from left */
+    right: 20px;
+    z-index: 3;
+    transition: top 0.3s ease-in-out, opacity 0.3s;
+
+}
+.navbar.hidden {
+    top: -100px;
+    opacity: 0;
+    pointer-events: none;
+}
+.navbar .list{
+    /* border: solid 1px #fff; */
+    width: 30%;
+    height: 80%;
 }
 
-/* Blog Header */
-.blogHead {
-    margin-bottom: 40px;
-    padding-bottom: 30px;
-    border-bottom: 2px solid #f0f4f8;
+.list ul{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    width: 100%;
+    height: 100%;
+
 }
 
-.blog-heading h1 {
-    font-size: 2.5rem;
-    font-weight: 700;
-    color: #1a365d;
-    line-height: 1.2;
-    margin-bottom: 20px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+.list ul a,p{
+    color: rgba(255, 255, 255, 0.7);
+    transition: .4s;
+    cursor: pointer;
+}
+.list ul a:hover,
+.list ul   p:hover,
+.dropdown:hover{
+    color: #fff;
 }
 
-.blog-description {
+.navbar .list li{
     font-size: 1.2rem;
-    color: #4a5568;
-    line-height: 1.6;
-    margin-bottom: 25px;
-    font-weight: 400;
-    padding: 15px 0;
+    font-weight: 500;
+    /* border: solid #fff; */
+    position:  relative;
+    display: flex;
+    gap: 0;
 }
 
-/* Author and Date Section */
-.auth-date {
+.navbar .logo{
+    /* border: solid #fff; */
+    width: 30%;
+    height: 80%;
+    display: flex;
+    align-items: center;
+    justify-content:flex-start;
+    font-size: large;
+    /* border: solid #fff; */
+    padding: 20px;
+}
+
+.navbar .logo  img{
+    width: 150px;
+    height: 40px;
+}
+
+.navbar .logo a{
+   color:  #fff;
+}
+
+.navbar .side{
+    /* border: solid white; */
+    width: 15%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    height: 80%;
+
+}
+.demoAnchor{
+    /* border: solid; */
+    width: 70%;
+    height: 80%;
+}
+.navbar .side button{
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    border: none;
+    background: rgba(255, 255, 255, 0.7);
+    transition: .5s;
+    font-size: medium;
+}
+.navbar .side button:hover{
+    background: rgb(240, 40, 184);
+    color: white;
+
+}
+
+.dropdown{
+    position: absolute;
+    display: inline-block;
+    cursor: pointer;
+    left: 0;
+    bottom: 0;
+
+}
+.dropdown p{
+    color: rgba(255, 255, 255, 0.7);
+
+}
+.dropdown-content {
+    position: absolute;
+    background-color: rgb(33, 51, 55);
+    min-width: 300px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.4);
+    z-index: 1;
+    border-radius: 10px;
+    padding: 10px;
+    display: none;
+    flex-direction: column;
+}
+
+.line{
+    width: 100%;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.2);
+    margin: 10px 0;
+}
+
+/* contact page */
+
+.Contact{
+
+    width: 100%;
+    height: 100vh;
+    position: fixed;
+    z-index: 4;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: rgb(0,0,0,0.5);
+    /* display: none; */ /* Removed to be controlled by JS */
+}
+
+.Contact-conatiner{
+    /* border: solid; */
+    width: 50%;
+    height: 98%;
+    background: #fff;
+    border-radius: 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 10px;
+    align-items: center;
+}
+
+.contactCont{
+    /* border: solid; */
+    width: 80%;
+}
+.closeBtnCont{
+    height: 5%;
+    display: flex;
+    align-items:self-end;
+}
+.closeBtnCont button{
+    width: 50px;
+    height: 100%;
+    border-radius: 50%;
+    font-size: x-large;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 95%;
+    color: #fff;
+    border: none;
+    background: rgb(240, 40, 184);
+    cursor: pointer;
+}
+
+.headers{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+}
+.contact-description{
+    font-size: small;
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+.sec-cont{
+    /* border: solid; */
+    display: flex;
+    flex-direction: column;
+    /* height: 90%; */
+}
+.infoSection{
+    /* height: 80%; */
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    margin-top: 20px;
+    gap: 10px;
 }
-
-.author {
-    font-size: 1rem;
-    color: #667eea;
-    font-weight: 600;
+.form-sub-cont{
     display: flex;
     align-items: center;
+    /* border: solid; */
+    justify-content: space-between;
 }
 
-.author::before {
-    content: "✍️";
-    margin-right: 8px;
-    font-size: 1.1rem;
-}
-
-.date {
-    font-size: 0.95rem;
-    color: #718096;
-    font-weight: 500;
+.form-final-cont{
     display: flex;
-    align-items: center;
-}
-
-.date::before {
-    content: "📅";
-    margin-right: 8px;
-    font-size: 1rem;
-}
-
-/* Blog Content */
-.blog-para {
-    font-size: 1.1rem;
-    line-height: 1.8;
-    color: #2d3748;
-    text-align: justify;
-    font-weight: 400;
-    letter-spacing: 0.3px;
-}
-
-.blog-para::first-letter {
-    font-size: 3.5rem;
-    font-weight: 700;
-    float: left;
-    line-height: 1;
-    margin: 8px 12px 0 0;
-    color: #667eea;
-    font-family: Georgia, serif;
-}
-
-/* Right side - Image */
-.blog-image {
-    position: sticky;
-    top: 100px;
-    height: fit-content;
-}
-
-.blog-image img {
-    width: 100%;
+    flex-direction: column;
+    /* border: solid; */
+    width: 50%;
     height: auto;
-    border-radius: 16px;
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    object-fit: cover;
-    max-height: 600px;
+}
+.form-final-cont input, select{
+    height: 40px;
+    width: 98%;
+    background: rgb(249, 239, 239);
+    border-radius: 10px;
+    border: none;
+    outline: none;
 }
 
-.blog-image img:hover {
-    transform: scale(1.02);
-    box-shadow: 0 16px 50px rgba(0, 0, 0, 0.2);
+.helpSection{
+    display: flex;
+    flex-direction: column;
+}
+.checkboxGroup{
+    display: flex;
+}
+.checkboxGroup label{
+    font-size: small;
 }
 
-/* Responsive Design */
-@media (max-width: 1200px) {
-    .blogSection {
-        grid-template-columns: 1fr 350px;
-        gap: 40px;
-        padding: 40px 15px;
-    }
-    
-    .blog-written {
-        padding: 30px;
-    }
-    
-    .blog-heading h1 {
-        font-size: 2.2rem;
-    }
+.additionalDetails{
+    display: flex;
+    flex-direction: column;
+    /* border: solid; */
+}
+.Submit{
+    /* border: solid; */
+    margin-top: 0;
+    height: 30px;
+    width: 30%;
+    border: none;
+    border-radius: 10px;
+    color: #fff;
+    background: rgb(240, 40, 184);
+    cursor: pointer;
+}
+.additionalDetails  textarea{
+    background: rgb(249, 239, 239);
+    height: 50px;
+    border: none;
 }
 
-@media (max-width: 968px) {
-    .blogSection {
-        grid-template-columns: 1fr;
-        gap: 30px;
-        padding: 30px 15px;
-    }
-    
-    .blog-image {
-        position: relative;
+.termsAndPolicies{
+    /* border: solid; */
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+.termsAndPolicies p{
+    font-size: x-small;
+    color: #000;
+}
+.termsAndPolicies p a{
+    text-decoration: underline;
+}
+/* footer */
+footer{
+    /* border:  solid #fff; */
+    display: flex;
+    flex-direction: column;
+    height: 60vh;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+.ftr-cont{
+    /* border: solid #fff; */
+    width: 90%;
+    background: rgb(33, 51, 55);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    height: 80%;
+    align-items: center;
+    width: 90%;
+
+}
+
+.ftr-elem{
+    /* border: solid #fff; */
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.footer-up{
+    height: 60%;
+    padding: 20px;
+    width: 90%;
+}
+.up-elem{
+    display: flex;
+    width: 50%;
+    height: 100%;
+}
+
+.ftr-lft{
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+.ftr-lft p,
+.ftr-lft a{
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.ftr-rt p,
+.ftr-lft a{
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.ftr-lft,
+.ftr-rt a:hover{
+    color: rgb(255, 255, 255);
+}
+
+.lft-links{
+    /* border:  solid #fff; */
+    display: flex;
+    justify-content: space-between;
+    width: 25%;
+}
+
+.ftr-rt{
+    /* border:  solid #fff; */
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+.ftr-rt-links{
+    display: flex;
+    height: 40%;
+    flex-direction:  column;
+    justify-content: space-between;
+}
+
+
+.footer-down{
+    flex-direction:  column;
+    height: 25%;
+    width: 90%;
+    border-top: solid #b3b1b1;
+}
+
+.footer-down p, a{
+    color: rgba(255, 255, 255, 0.7);
+}
+.footer-down .term-policy p{
+    cursor:auto;
+}
+.lft-links a img {
+    height: 30px;
+    width: 30px;
+    border: none;
+}
+.ftr-lft-logo img {
+    height: auto; /* Or set a specific height if you need to */
+    width: 150px; /* Adjust as needed */
+    border: none; /* Remove border if not desired */
+}
+
+.ftr-rt-links a{
+    color: #b3b1b1;
+}
+
+/* back to top
+ */
+.backtotop {
+    position: fixed; /* Fixes the button relative to the viewport */
+    bottom: 20px;    /* 20px from the bottom */
+    right: 20px;     /* 20px from the right */
+    z-index: 1000;   /* Ensures it's above other content */
+    display: none;   /* Hidden by default */
+}
+
+#Totop {
+    background-color: #007bff; /* Blue background */
+    color: white;              /* White text */
+    border: none;              /* No border */
+    padding: 15px 20px;        /* Padding inside the button */
+    border-radius: 5px;        /* Slightly rounded corners */
+    cursor: pointer;           /* Hand cursor on hover */
+    font-size: 1.2em;          /* Larger font size */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transitions */
+}
+
+#Totop:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+    transform: translateY(-2px); /* Slight lift effect on hover */
+}
+
+#Totop:active {
+    transform: translateY(0); /* Resets on click */
+}
+
+
+/* Burger menu styles */
+.burger-menu {
+    display: none; /* Hidden by default, shown on small screens */
+    flex-direction: column;
+    justify-content: space-around;
+    width: 30px;
+    height: 25px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    z-index: 4;
+}
+
+.burger-menu div {
+    width: 100%;
+    height: 3px;
+    background: white;
+    border-radius: 5px;
+    transition: all 0.3s linear;
+    transform-origin: 1px;
+}
+
+/* Animation for burger menu icon */
+.burger-menu.open div:nth-child(1) {
+    transform: rotate(45deg);
+}
+
+.burger-menu.open div:nth-child(2) {
+    opacity: 0;
+    transform: translateX(-20px);
+}
+
+.burger-menu.open div:nth-child(3) {
+    transform: rotate(-45deg);
+}
+
+/* Media Queries for responsiveness */
+@media (max-width: 980px) {
+    .navbar {
+        flex-direction: row; /* Keep logo and button in a row */
+        justify-content: space-between;
+        padding: 10px 20px;
+        height: 10vh; /* Adjust height for mobile nav */
+        border-radius: 0;
         top: 0;
-        order: -1;
+        left: 0;
+        right: 0;
+        background: rgb(33, 51, 55); /* Ensure background color consistency */
+        align-items: center; /* Vertically center items when closed */
     }
-    
-    .blog-image img {
-        max-height: 400px;
-    }
-    
-    .blog-heading h1 {
-        font-size: 2rem;
-    }
-    
-    .blog-para::first-letter {
-        font-size: 3rem;
-    }
-}
 
-@media (max-width: 768px) {
-    .blogSection {
-        padding: 20px 10px;
+    .navbar .logo {
+        width: auto; /* Adjust width */
+        justify-content: flex-start;
+        padding: 0;
     }
-    
-    .blog-written {
-        padding: 25px;
-        border-radius: 12px;
+
+    .navbar .list {
+        display: none; /* Hide the list by default */
+        flex-direction: column;
+        width: 100%;
+        position: absolute;
+        top: 10vh; /* Position below the visible navbar */
+        left: 0;
+        background: rgb(33, 51, 55);
+        box-shadow: 0 8px 16px rgba(0,0,0,0.4);
+        z-index: 2;
+        height: auto;
+        overflow: hidden; /* Hide overflow to prevent scroll issues */
+        transition: max-height 0.3s ease-in-out; /* Smooth transition for height */
+        max-height: 0; /* Initially collapsed */
     }
-    
-    .auth-date {
+
+    .navbar .list.active {
+        display: flex; /* Show list when active */
+        max-height: 500px; /* Or a value large enough to contain content */
+        padding-bottom: 20px; /* Add some padding when open */
+    }
+
+    .list ul {
         flex-direction: column;
         align-items: flex-start;
+        gap: 0; /* Remove gap from ul to control spacing with padding */
+        width: 100%;
+        padding: 0; /* Remove default ul padding */
+        list-style: none; /* Remove bullet points */
+    }
+
+    .list ul li {
+        width: 100%; /* Make list items take full width */
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Separator line */
+        padding: 15px 20px; /* Add padding to list items */
+        box-sizing: border-box; /* Include padding in width */
+    }
+
+    .list ul li:last-child {
+        border-bottom: none; /* No border for the last item */
+    }
+
+    .list ul a, .list ul p {
+        font-size: 1.1rem;
+        color: rgba(255, 255, 255, 0.7);
+        width: 100%; /* Make links take full width of li */
+        display: block; /* Make links block level for full clickable area */
+        padding: 0; /* Remove default link padding */
+        text-decoration: none; /* Remove underline */
+    }
+
+    .list ul a:hover,
+    .list ul p:hover {
+        color: #fff;
+    }
+
+    .navbar .side {
+        display: none; /* Hide the regular demo button */
+    }
+
+    .navbar .side.active {
+        display: flex; /* Show demo button when active */
+        width: 100%;
+        justify-content: center;
+        margin-top: 15px; /* Spacing from menu items */
+        padding: 0 20px; /* Padding for the button container */
+        box-sizing: border-box;
+    }
+
+    .demoAnchor {
+        width: 100%; /* Make button anchor take full width */
+        height: 45px;
+    }
+
+    .navbar .side button {
+        width: 100%; /* Make button take full width of its container */
+    }
+
+    .burger-menu {
+        display: flex; /* Show burger menu on small screens */
+    }
+
+    .dropdown {
+        width: 100%; /* Ensure dropdown parent takes full width */
+    }
+
+    .dropdown p {
+        width: 100%; /* Make dropdown trigger text take full width */
+    }
+
+    .dropdown-content {
+        position: static; /* Make dropdown content static for mobile */
+        min-width: unset;
+        width: 100%;
+        padding: 0; /* Remove padding here, controlled by li */
+        box-shadow: none; /* Remove box shadow for nested items */
+        background-color: transparent; /* Transparent background to blend with parent list item */
+        border-radius: 0; /* No border radius */
+        margin-top: 10px; /* Space between dropdown trigger and content */
+        display: none; /* Controlled by JS */
+        flex-direction: column; /* Ensure items stack */
+    }
+
+    .dropdown-content a {
+        padding: 10px 0 10px 20px; /* Indent dropdown items */
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05); /* Lighter separator for sub-items */
+    }
+
+    .dropdown-content a:last-child {
+        border-bottom: none;
+    }
+
+    .line {
+        display: none; /* Hide the line within the dropdown content */
+    }
+
+    /* Contact Section adjustments */
+    .Contact {
+        padding: 10px;
+    }
+
+    .Contact-conatiner {
+        width: 95%;
+        height: 90%; /* Adjust height to fit better on small screens */
+        padding: 15px;
+    }
+
+    .closeBtnCont button {
+        margin-left: auto;
+        margin-right: 0;
+        width: 35px;
+        height: 35px;
+        font-size: large;
+    }
+
+    .headers {
+        margin-bottom: 15px;
+    }
+
+    .mainHeading h1 {
+        font-size: large;
+    }
+
+    .contact-description {
+        font-size: small;
+        text-align: center;
+    }
+
+    .infoSection, .form-sub-cont {
+        flex-direction: column;
         gap: 10px;
     }
-    
-    .blog-heading h1 {
-        font-size: 1.8rem;
+
+    .form-final-cont {
+        width: 100%;
+    }
+
+    .Submit {
+        width: 60%;
+        height: 40px;
+        margin: 15px auto 0;
+    }
+
+    /* Footer adjustments */
+    footer {
+        height: auto;
+        padding: 20px 0;
+    }
+
+    .ftr-cont {
+        width: 95%;
+        height: auto;
+        padding: 15px 0;
+    }
+
+    .footer-up {
+        flex-direction: column;
+        height: auto;
+        width: 100%;
+        padding: 10px;
+    }
+
+    .up-elem {
+        width: 100%;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .ftr-lft {
+        align-items: center;
+    }
+
+    .ftr-lft-logo img {
+        margin-bottom: 15px;
+    }
+
+    .lft-links {
+        width: 80%;
+        justify-content: space-around;
+    }
+
+    .ftr-rt {
+        flex-direction: column;
+        height: auto;
+        gap: 15px;
+    }
+
+    .ftr-rt-links {
+        height: auto;
+        gap: 8px;
+        align-items: center;
+    }
+
+    .footer-down {
+        height: auto;
+        width: 90%;
+        border-top: 1px solid #b3b1b1;
+        padding-top: 15px;
+        margin-top: 15px;
+        text-align: center;
+    }
+
+    .term-policy {
+        margin-bottom: 5px;
+    }
+}
+
+/* Add responsive styles for navbar */
+@media (max-width: 768px) {
+    .navbar {
+        padding: 0 20px;
+        position: relative;
     }
     
-    .blog-description {
-        font-size: 1.1rem;
+    .burger-menu {
+        display: flex;
+        flex-direction: column;
+        cursor: pointer;
+        z-index: 1000;
     }
     
-    .blog-para {
-        font-size: 1rem;
-        line-height: 1.7;
+    .burger-menu span {
+        width: 25px;
+        height: 3px;
+        background-color: #333;
+        margin: 3px 0;
+        transition: 0.3s;
+    }
+    
+    .burger-menu.active span:nth-child(1) {
+        transform: rotate(-45deg) translate(-5px, 6px);
+    }
+    
+    .burger-menu.active span:nth-child(2) {
+        opacity: 0;
+    }
+    
+    .burger-menu.active span:nth-child(3) {
+        transform: rotate(45deg) translate(-5px, -6px);
+    }
+    
+    .list {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background-color: white;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        transform: translateY(-100%);
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+        z-index: 999;
+    }
+    
+    .list.active {
+        transform: translateY(0);
+        opacity: 1;
+        visibility: visible;
+    }
+    
+    .list ul {
+        flex-direction: column;
+        padding: 20px;
+    }
+    
+    .list ul li {
+        margin: 10px 0;
+        width: 100%;
+    }
+    
+    .side {
+        display: none;
+    }
+    
+    .dropdown {
+        position: static;
+        box-shadow: none;
+        background-color: #f8f9fa;
+        margin-top: 10px;
+        padding: 10px;
+    }
+    
+    .dropdown-content {
+        flex-direction: column;
+    }
+    
+    .dropdown-content a {
+        padding: 8px 0;
+        border-bottom: 1px solid #eee;
+    }
+    
+    .dropdown-content a:last-child {
+        border-bottom: none;
     }
 }
 
 @media (max-width: 480px) {
-    .blog-written {
-        padding: 20px;
+    .navbar {
+        padding: 0 15px;
     }
     
-    .blog-heading h1 {
-        font-size: 1.6rem;
+    .logo a {
+        font-size: 18px;
     }
     
-    .blog-description {
-        font-size: 1rem;
+    .list ul {
+        padding: 15px;
+    }
+}
+
+/* Hide burger menu on desktop */
+@media (min-width: 769px) {
+    .burger-menu {
+        display: none;
     }
     
-    .blog-para::first-letter {
-        font-size: 2.5rem;
-        margin: 5px 8px 0 0;
-    }
-}
-
-/* Additional styling for better readability */
-.blog-para p {
-    margin-bottom: 20px;
-}
-
-.blog-para p:last-child {
-    margin-bottom: 0;
-}
-
-/* Smooth scrolling */
-html {
-    scroll-behavior: smooth;
-}
-
-/* Loading animation for images */
-.blog-image img {
-    opacity: 0;
-    animation: fadeIn 0.6s ease-in-out forwards;
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
+    .list {
+        position: static;
+        transform: none;
         opacity: 1;
-        transform: translateY(0);
+        visibility: visible;
     }
-}
-
-/* Custom scrollbar for webkit browsers */
-.blog-written::-webkit-scrollbar {
-    width: 6px;
-}
-
-.blog-written::-webkit-scrollbar-track {
-    background: #f1f1f1;
-    border-radius: 3px;
-}
-
-.blog-written::-webkit-scrollbar-thumb {
-    background: #667eea;
-    border-radius: 3px;
-}
-
-.blog-written::-webkit-scrollbar-thumb:hover {
-    background: #5a67d8;
 }
