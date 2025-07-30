@@ -23,4 +23,4 @@ rightBtn.addEventListener('click', () => {
 scrollContent.addEventListener('scroll', () => {
   leftBtn.disabled = scrollContent.scrollLeft === 0;
   rightBtn.disabled = scrollContent.scrollLeft + scrollContent.clientWidth >= scrollContent.scrollWidth;
-});2
+});

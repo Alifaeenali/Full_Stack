@@ -41,26 +41,26 @@
     <div class="client-image-scroller">
         <div class="scroller-inner">
             {# Direct access for clientImg1, clientImg2, etc. #}
-            {% if clientImg1 %}<img src="{{ url_for('static', filename=clientImg1) }}" alt="Client Logo 1">{% endif %}
-            {% if clientImg2 %}<img src="{{ url_for('static', filename=clientImg2) }}" alt="Client Logo 2">{% endif %}
-            {% if clientImg3 %}<img src="{{ url_for('static', filename=clientImg3) }}" alt="Client Logo 3">{% endif %}
-            {% if clientImg4 %}<img src="{{ url_for('static', filename=clientImg4) }}" alt="Client Logo 4">{% endif %}
-            {% if clientImg5 %}<img src="{{ url_for('static', filename=clientImg5) }}" alt="Client Logo 5">{% endif %}
-            {% if clientImg6 %}<img src="{{ url_for('static', filename=clientImg6) }}" alt="Client Logo 6">{% endif %}
-            {% if clientImg7 %}<img src="{{ url_for('static', filename=clientImg7) }}" alt="Client Logo 7">{% endif %}
-            {% if clientImg8 %}<img src="{{ url_for('static', filename=clientImg8) }}" alt="Client Logo 8">{% endif %}
-            {% if clientImg9 %}<img src="{{ url_for('static', filename=clientImg9) }}" alt="Client Logo 9">{% endif %}
+            {% if clientImg1 %}<img src="{{clientImg1 }}" alt="Client Logo 1">{% endif %}
+            {% if clientImg2 %}<img src="{{clientImg2 }}" alt="Client Logo 2">{% endif %}
+            {% if clientImg3 %}<img src="{{clientImg3 }}" alt="Client Logo 3">{% endif %}
+            {% if clientImg4 %}<img src="{{clientImg4 }}" alt="Client Logo 4">{% endif %}
+            {% if clientImg5 %}<img src="{{clientImg5 }}" alt="Client Logo 5">{% endif %}
+            {% if clientImg6 %}<img src="{{clientImg6 }}" alt="Client Logo 6">{% endif %}
+            {% if clientImg7 %}<img src="{{clientImg7 }}" alt="Client Logo 7">{% endif %}
+            {% if clientImg8 %}<img src="{{clientImg8 }}" alt="Client Logo 8">{% endif %}
+            {% if clientImg9 %}<img src="{{clientImg9 }}" alt="Client Logo 9">{% endif %}
 
             {# Duplicate for continuous scroll effect if needed by CSS/JS #}
-            {% if clientImg1 %}<img src="{{ url_for('static', filename=clientImg1) }}" alt="Client Logo 1">{% endif %}
-            {% if clientImg2 %}<img src="{{ url_for('static', filename=clientImg2) }}" alt="Client Logo 2">{% endif %}
-            {% if clientImg3 %}<img src="{{ url_for('static', filename=clientImg3) }}" alt="Client Logo 3">{% endif %}
-            {% if clientImg4 %}<img src="{{ url_for('static', filename=clientImg4) }}" alt="Client Logo 4">{% endif %}
-            {% if clientImg5 %}<img src="{{ url_for('static', filename=clientImg5) }}" alt="Client Logo 5">{% endif %}
-            {% if clientImg6 %}<img src="{{ url_for('static', filename=clientImg6) }}" alt="Client Logo 6">{% endif %}
-            {% if clientImg7 %}<img src="{{ url_for('static', filename=clientImg7) }}" alt="Client Logo 7">{% endif %}
-            {% if clientImg8 %}<img src="{{ url_for('static', filename=clientImg8) }}" alt="Client Logo 8">{% endif %}
-            {% if clientImg9 %}<img src="{{ url_for('static', filename=clientImg9) }}" alt="Client Logo 9">{% endif %}
+            {% if clientImg1 %}<img src="{{clientImg1 }}" alt="Client Logo 1">{% endif %}
+            {% if clientImg2 %}<img src="{{clientImg2 }}" alt="Client Logo 2">{% endif %}
+            {% if clientImg3 %}<img src="{{clientImg3 }}" alt="Client Logo 3">{% endif %}
+            {% if clientImg4 %}<img src="{{clientImg4 }}" alt="Client Logo 4">{% endif %}
+            {% if clientImg5 %}<img src="{{clientImg5 }}" alt="Client Logo 5">{% endif %}
+            {% if clientImg6 %}<img src="{{clientImg6 }}" alt="Client Logo 6">{% endif %}
+            {% if clientImg7 %}<img src="{{clientImg7 }}" alt="Client Logo 7">{% endif %}
+            {% if clientImg8 %}<img src="{{clientImg8 }}" alt="Client Logo 8">{% endif %}
+            {% if clientImg9 %}<img src="{{clientImg9 }}" alt="Client Logo 9">{% endif %}
         </div>
     </div>
 </section>
@@ -80,7 +80,7 @@
         </div>
         <div class="innovation-video">
             <video>
-                <source src="{{ url_for('static', filename=innovationVideo) }}" type="video/mp4">
+                <source src="{{innovationVideo }}" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
             <div class="video-overlay">
@@ -92,7 +92,7 @@
 
     <section class="improve-experience">
         <video autoplay muted loop id="myVideo">
-            <source src="{{ url_for('static', filename=clientExpVideo) }}" type="video/mp4">
+            <source src="{{clientExpVideo }}" type="video/mp4">
         </video>
         <div class="improve-experience-description">
             <div class="improve-experience-heading">
@@ -102,9 +102,6 @@
                 {{ clientExpDescription }}
             </div>
         </div>
-        <!--<div class="video-overlay">
-            <div class="play-button"></div>
-        </div>-->
     </section>
 
     <section class="statistics">
@@ -121,7 +118,7 @@
                 {# Direct access for stat card elements #}
                 <div class="card c1">
                     {% if StatcardLogo1 %}
-                        <img src="{{ url_for('static', filename=StatcardLogo1) }}" alt="Statistic Card Logo 1">
+                        <img src="{{StatcardLogo1 }}" alt="Statistic Card Logo 1">
                     {% endif %}
                     <div class="number">
                         <h1>{{ StatcardHead1 }}</h1>
@@ -130,7 +127,7 @@
                 </div>
                 <div class="card c2">
                     {% if StatcardLogo2 %}
-                        <img src="{{ url_for('static', filename=StatcardLogo2) }}" alt="Statistic Card Logo 2">
+                        <img src="{{StatcardLogo2 }}" alt="Statistic Card Logo 2">
                     {% endif %}
                     <div class="number">
                         <h1>{{ StatcardHead2 }}</h1>
@@ -139,7 +136,7 @@
                 </div>
                 <div class="card c3">
                     {% if StatcardLogo3 %}
-                        <img src="{{ url_for('static', filename=StatcardLogo3) }}" alt="Statistic Card Logo 3">
+                        <img src="{{StatcardLogo3 }}" alt="Statistic Card Logo 3">
                     {% endif %}
                     <div class="number">
                         <h1>{{ StatcardHead3 }}</h1>
@@ -152,15 +149,11 @@
 
     <section class="get-to-know">
         <video autoplay muted loop id="myVideo">
-            <source src="{{ url_for('static', filename=knowVideo) }}" type="video/mp4">
+            <source src="{{knowVideo}}" type="video/mp4">
         </video>
         <div class="get-to-know-heading">
             <h1><b>{{ knowHead }}</b></h1>
         </div>
-       <!-- <div class="video-overlay">
-            <div class="play-button"></div>
-            <div class="close-button">×</div>
-        </div> -->
     </section>
 
     <section class="explore">

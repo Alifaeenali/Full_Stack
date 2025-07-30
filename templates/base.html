@@ -25,40 +25,35 @@
     {% block head_extra %}{% endblock %}
 </head>
 <body>
-    <div class="navbar">
-        <div class="logo">
-            <a href="{{url_for('index')}}">
-                {# navLogo is directly available #}
-                {% if navLogo %}
-                    <img src="{{navLogo}}" alt="Fortifund Logo">
-                {% else %}
-                    FORTIFUND
-                {% endif %}
-            </a>
+   <div class="navbar">
+        <div class="navbar-header">
+            <div class="logo">
+                <a href="{{url_for('index')}}">
+                    <img src="{{navLogo}}">
+                </a>
+            </div>
         </div>
+        
         <div class="list">
             <ul>
-                {# Direct access for navAnchor1, dropdown1, navAnchor2, navAnchor3, navbtn #}
                 <li>
-                    <p id="dropBtn">{{ navAnchor1 }} &#x25BE;</p>
                     <div class="dropdown">
+                        <p id="dropBtn">Our Solutions &#x25BE;</p>
                         <div class="dropdown-content">
-
-                            {% if dropdown2 %}
-                            <a href="{{url_for('matchmaking')}}">{{ dropdown1 }}</a><div class="line"></div>
-                            <a href="{{url_for('upcommingSolutions')}}">{{ dropdown2 }}</a><div class="line"></div>
-                            {% endif %}
+                            <a href="{{url_for('matchmaking')}}">Matchmaking</a>
+                            <div class="line"></div>
+                            <a href="{{url_for('upcommingSolutions')}}">Upcoming Solutions</a>
                         </div>
                     </div>
                 </li>
-                
-                <li><a href="{{url_for('faqs')}}">{{ navAnchor2 }}</a></li>
-                <li><a href="#" id = 'Contact'>{{ navAnchor3 }}</a></li>
+                <li><a href="{{url_for('faqs')}}">FAQs</a></li>
+                <li><a href="#" id="Contact">Connect</a></li>
             </ul>
         </div>
+        
         <div class="side">
-            <a href="{{ url_for('demo') }}" class='demoAnchor'>
-                <button id="BookDemo" class="talk-to-expert">{{ navbtn }}</button>
+            <a href="{{url_for('demo')}}">
+                <button id="BookDemo" class="talk-to-expert">Book Demo</button>
             </a>
         </div>
     </div>
@@ -152,7 +147,7 @@
                     <div class="ftr-lft-logo">
                         {# footer_logo is directly available #}
                         {% if footer_logo %}
-                            <img src="{{ url_for('static', filename=footer_logo) }}" alt="Fortifund Logo">
+                            <img src="{{footer_logo}}" alt="Fortifund Logo">
                             
                         {% else %}
                              <a href="{{url_for('index')}}">FORTIFUND</a>
@@ -162,24 +157,24 @@
                         
                             <a href="{{ footer_social_link1 }}" class="ftr-links">
                                 <!-- <img src="{{ footer_social_icon1 }}" alt="Fortifund Logo"> -->
-                                <img src="{{ url_for('static', filename=footer_social_icon1) }}" alt="Fortifund Logo">
+                                <img src="{{footer_social_icon1 }}" alt="Fortifund Logo">
                             </a>
                         
                         
                             <a href="{{ footer_social_link2 }}" class="ftr-links">
                                 <!-- <img src="{{footer_social_icon2  }}" alt="Fortifund Logo"> -->
-                                 <img src="{{ url_for('static', filename=footer_social_icon2) }}" alt="Fortifund Logo">
+                                 <img src="{{ footer_social_icon2 }}" alt="Fortifund Logo">
                             </a>
                        
                             <a href="{{ footer_social_link3 }}" class="ftr-links">
                                 <!-- <img src="{{footer_social_icon3  }}" alt="Fortifund Logo"> -->
-                                 <img src="{{ url_for('static', filename=footer_social_icon3) }}" alt="Fortifund Logo">
+                                 <img src="{{ footer_social_icon3 }}" alt="Fortifund Logo">
                             </a>
                         
                         
                             <a href="{{ footer_social_link4 }}" class="ftr-links">
                                 <!-- <img src="{{footer_social_icon4  }}" alt="Fortifund Logo"> -->
-                                 <img src="{{ url_for('static', filename=footer_social_icon4) }}" alt="Fortifund Logo">
+                                 <img src="{{ footer_social_icon4 }}" alt="Fortifund Logo">
                             </a>
                         
                     </div>
