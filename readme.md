@@ -1,13 +1,9 @@
-Instructions on how to install and set up the project:
+Instructions on how to run the website on your local computer
 
-1. Clone the repository: git clone https://github.com/Alifaeenali/newFront
-   Run these command in terminal:
-2. pip install flask
-3. set FLASK_APP=app.py
-4. flask run
+clone the repository https://github.com/Alifaeenali/Full_Stack
 
-Usage
-Instructions on how to use the project:
+open command prompt and clone repository in your preffered folder by running: 
 
-1. Open a web browser and navigate to http://localhost:5000
-2. Follow the on-screen instructions
+cd path/to/yourFolder
+git clone https://github.com/Alifaeenali/Full_Stack
+
