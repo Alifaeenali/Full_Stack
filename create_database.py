@@ -91,10 +91,6 @@ def run_sql_script(sql_script_content):
 
 if __name__ == "__main__":
     sql_script = """
-    create database dbfortifund;
-
-    use dbfortifund;
-
     create table if not exists navtable(
     nav_id int auto_increment primary key,
     navLogo varchar(200),
@@ -105,6 +101,8 @@ if __name__ == "__main__":
     dropdown2 varchar(200),
     navbtn varchar(200)
     );
+    INSERT INTO navtable (navLogo, navAnchor1, navAnchor2, navAnchor3, dropdown1, dropdown2, navbtn )
+    VALUES ('static/assets/images/navlogo.png', 'Our Solutions','FAQs', 'Contact','Match Making(Live Now)','Upcomming Solutions(Comming Solutions)','Book Demo');
 
     create table if not exists  herotable(
     hero_id int auto_increment primary key,
