@@ -21,13 +21,18 @@ SMTP_PORT = int(os.getenv('SMTP_PORT', 587))
 SMTP_USERNAME = os.getenv('SMTP_USERNAME')
 SMTP_PASSWORD = os.getenv('SMTP_PASSWORD')
 
+DB_HOST = os.getenv("DB_HOST")
+DB_USER = os.getenv("DB_USER")
+DB_PASSWORD = os.getenv("DB_PASSWORD")
+DB_NAME = os.getenv("DB_NAME")
+
 # for establishing db connection
 def get_db_connection():
     conn = mysql.connector.connect(
-        host='localhost',
-        user='root',          # Replace with your MySQL username
-        password='10,Aug_2023', # Replace with your MySQL password
-        database='dbfortifund' # Updated to your new database name
+        host=DB_HOST,
+        user=DB_USER,          # Replace with your MySQL username
+        password=DB_PASSWORD, # Replace with your MySQL password
+        database=DB_NAME # Updated to your new database name
     )
     return conn
 
