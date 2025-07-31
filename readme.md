@@ -44,8 +44,12 @@ app password for gmail
 
 once password created you can update gmail password in .env file and gmail too. 
 
-then run app.py by running
+then run on terminal/cmd
 
+#to setup database
+python create_database.py
+
+#to run server
 python app.py
 
 the link will show up in the terminal
