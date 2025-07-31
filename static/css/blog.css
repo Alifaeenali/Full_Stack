@@ -32,13 +32,17 @@
 .blog-heading h1 {
     font-size: 2.5rem;
     font-weight: 700;
-    color: #1a365d;
+    /* color: rgb(240, 40, 184); */
     line-height: 1.2;
     margin-bottom: 20px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #f028b8 0%, #764ba2 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+}
+
+.blog-heading h1 b{
+    color: #f028b8;
 }
 
 .blog-description {
@@ -60,7 +64,7 @@
 
 .author {
     font-size: 1rem;
-    color: #667eea;
+    color: rgb(240, 40, 184);
     font-weight: 600;
     display: flex;
     align-items: center;
@@ -74,7 +78,7 @@
 
 .date {
     font-size: 0.95rem;
-    color: #718096;
+    color: rgb(240, 40, 184);
     font-weight: 500;
     display: flex;
     align-items: center;
@@ -102,7 +106,7 @@
     float: left;
     line-height: 1;
     margin: 8px 12px 0 0;
-    color: #667eea;
+    color: rgb(240, 40, 184);
     font-family: Georgia, serif;
 }
 

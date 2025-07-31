@@ -10,7 +10,6 @@ from email.mime.multipart import MIMEMultipart
 from apscheduler.schedulers.background import BackgroundScheduler
 import time
 from app_utils import get_db_connection, login_required, return_content, send_email
-
 from dotenv import load_dotenv  
 
 # Load environment variables from .env file

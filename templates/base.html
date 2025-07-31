@@ -38,22 +38,22 @@
             <ul>
                 <li>
                     <div class="dropdown">
-                        <p id="dropBtn">Our Solutions &#x25BE;</p>
+                        <p id="dropBtn">{{navAnchor1}} &#x25BE;</p>
                         <div class="dropdown-content">
-                            <a href="{{url_for('matchmaking')}}">Matchmaking</a>
+                            <a href="{{url_for('matchmaking')}}">{{dropdown1}}</a>
                             <div class="line"></div>
-                            <a href="{{url_for('upcommingSolutions')}}">Upcoming Solutions</a>
+                            <a href="{{url_for('upcommingSolutions')}}"> {{dropdown2}} </a>
                         </div>
                     </div>
                 </li>
-                <li><a href="{{url_for('faqs')}}">FAQs</a></li>
-                <li><a href="#" id="Contact">Connect</a></li>
+                <li><a href="{{url_for('faqs')}}"> {{navAnchor2}} </a></li>
+                <li><a href="#" id="Contact"> {{navAnchor3}} </a></li>
             </ul>
         </div>
         
         <div class="side">
             <a href="{{url_for('demo')}}">
-                <button id="BookDemo" class="talk-to-expert">Book Demo</button>
+                <button id="BookDemo" class="talk-to-expert">{{navbtn}}</button>
             </a>
         </div>
     </div>

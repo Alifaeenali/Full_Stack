@@ -34,4 +34,20 @@ open the folder
 
 run this in cmd/terminal
 
-pip install 
+pip install -r requirement.txt
+
+after that open .env file and set your own credidentials there
+
+for email first turn on two step authentication you want to send email through , then get a app password from chrome by searching
+
+app password for gmail
+
+once password created you can update gmail password in .env file and gmail too. 
+
+then run app.py by running
+
+python app.py
+
+the link will show up in the terminal
+
+copy paste that link in browser or ctrl+click on that link

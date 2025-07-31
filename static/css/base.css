@@ -710,10 +710,12 @@ footer{
     display: flex;
     justify-content: space-around;
     align-items: center;
+    width: 60%;
 }
 .ftr-rt-links{
     display: flex;
     height: 40%;
+    width: 50%;
     flex-direction:  column;
     justify-content: space-between;
 }
@@ -888,5 +890,41 @@ footer{
 
     .term-policy {
         margin-bottom: 5px;
+    }
+}
+
+@media (min-width: 1024px) {
+    .Contact-conatiner {
+        width: 50%; /* Original width for very large screens */
+        height: 98%; /* Original height */
+        max-width: 900px; /* Allow a bit wider on very large screens */
+        gap: 5px;
+        padding: 10px;
+    }
+
+    .closeBtnCont {
+        height: 5%;
+    }
+
+    .closeBtnCont button {
+        margin-left: 95%; /* Restore original margin for close button */
+    }
+
+    .infoSection {
+        flex-direction: row;
+        gap: 10px;
+    }
+.form-sub-cont {
+        flex-direction: row;
+        gap: 0; /* Original gap */
+    }
+
+    .form-final-cont input,
+    select {
+        width: 98%; /* Original width for inputs */
+    }
+
+    .Submit {
+        width: 30%;
     }
 }
